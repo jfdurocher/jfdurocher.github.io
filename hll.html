@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HAM Radio Logger</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        #loggerForm {
+            padding: 10px;
+            background-color: #f4f4f4;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        #loggerForm input, #loggerForm textarea, #loggerForm button {
+            margin: 5px;
+            padding: 5px;
+        }
+        #map {
+            height: calc(100vh - 70px); /* Adjust height to fill remaining space */
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+
+<h2 style="margin: 0; padding: 10px; background-color: #333; color: #fff;">HAM Radio Logger</h2>
+
+<!-- Form to add call signs -->
+<form id="loggerForm">
+    <input type="text" id="callSign" placeholder="Call Sign" required>
+    <input type="text" id="latitude" placeholder="Latitude" required>
+    <input type="text" id="longitude" placeholder="Longitude" required>
+    <input type="date" id="dateHeard" required>
+    <textarea id="notes" placeholder="Notes"></textarea>
+    <button type="button" onclick="addEntry()">Add Entry</button>
+    <button type="button" onclick="exportCSV()">Export to CSV</button>
+    <input type="file" id="csvFileInput" accept=".csv" onchange="importCSV(event)" />
+</form>
+
+<!-- Map to display pins -->
+<div id="map"></div>
+
+<!-- Link to external JavaScript file -->
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+<script src="script.js"></script> <!-- Link to the external JS file -->
+</body>
+</html>
