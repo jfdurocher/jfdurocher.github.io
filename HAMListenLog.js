@@ -11,6 +11,12 @@ if (entries.length > 0) {
     entries.forEach(addPinToMap); // Add pins to map on page load
 }
 
+// Set the default date for "dateHeard" to today
+document.addEventListener("DOMContentLoaded", () => {
+    const today = new Date().toISOString().split('T')[0];
+    document.getElementById('dateHeard').value = today;
+});
+
 // Click event to fill latitude and longitude inputs
 map.on('click', function(e) {
     document.getElementById('latitude').value = e.latlng.lat.toFixed(6);
@@ -35,12 +41,19 @@ function addEntry() {
     
     addPinToMap(entry);
     document.getElementById('loggerForm').reset();
+    document.getElementById('dateHeard').value = new Date().toISOString().split('T')[0]; // Reset date to today
 }
 
 function addPinToMap(entry) {
     if (entry && entry.location && !isNaN(entry.location.lat) && !isNaN(entry.location.lng)) {
         const marker = L.marker([entry.location.lat, entry.location.lng]).addTo(map);
-        marker.bindPopup(`<b>${entry.callSign}</b><br>Date Heard: ${entry.dateHeard}<br>${entry.notes}`);
+        const qrzLink = `https://www.qrz.com/db/${entry.callSign}`;
+        marker.bindPopup(
+            `<b>${entry.callSign}</b><br>
+             Date Heard: ${entry.dateHeard}<br>
+             ${entry.notes}<br>
+             <a href="${qrzLink}" target="_blank">View on QRZ.com</a>`
+        );
     } else {
         console.warn("Invalid entry skipped:", entry); // Debug log for invalid entry
     }
